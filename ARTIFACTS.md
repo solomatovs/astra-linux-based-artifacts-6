@@ -10,7 +10,7 @@ fork of CloudBeaver **without network access**:
 | component | contents |
 |-----------|----------|
 | `cloudbeaver/src`  | source tarballs of the three forks, tag `dmp-26.1.3`, plus the yarn 4 cli |
-| `cloudbeaver/deps` | build dependencies of that tag: maven local repository (with the tycho p2 cache) and the global yarn cache |
+| `cloudbeaver/deps` | build dependencies of that tag: maven local repository (with the tycho p2 cache), the global yarn cache, and the .deb packages the runtime image installs |
 
 The consuming `Makefile`/`Dockerfile` live in the `cloudbeaver` fork itself
 (`deploy/docker/cloudbeaver-dmp`), where `artifacts/` is git-ignored — only these
@@ -36,7 +36,8 @@ cd astra-linux-based-artifacts-6
 CB=/path/to/cloudbeaver/deploy/docker/cloudbeaver-dmp
 mkdir -p "$CB/artifacts/src" "$CB/artifacts/deps/26.1.3"
 cp cloudbeaver/src/* "$CB/artifacts/src/"
-tar -xzf cloudbeaver/deps/cloudbeaver-deps-26.1.3.tar.gz -C "$CB/artifacts/deps/26.1.3"
+tar -xzf cloudbeaver/deps/cloudbeaver-deps-26.1.3.tar.gz     -C "$CB/artifacts/deps/26.1.3"
+tar -xzf cloudbeaver/deps/cloudbeaver-deps-26.1.3-deb.tar.gz -C "$CB/artifacts/deps/26.1.3"
 
 cd "$CB"
 make all                          # sources are already in place, nothing is downloaded
@@ -50,8 +51,9 @@ runs with `--network=none` (maven with `-o -Dmaven.repo.local=`, yarn with
 going online.
 
 If maven/npm must go through an internal nexus, drop `conf/maven-settings.xml`
-and `conf/yarnrc.yml` into the builder directory (examples ship in the fork). They are not
-needed for the flow above — everything already resolves from `artifacts/deps`.
+and `conf/yarnrc.yml` into the builder directory (examples ship in the fork). They
+only affect `make deps`; the flow above resolves everything from `artifacts/deps`
+and needs no registry at all.
 
 The dev flow (`make all SOURCE=local`, sources taken from local working trees) needs
 its own `artifacts/deps/local`; it is a developer-machine concern and is not carried
