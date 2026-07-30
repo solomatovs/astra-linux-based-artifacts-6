@@ -1,0 +1,3 @@
+# Assembled originals of split artifacts are NOT committed — their .part-* pieces are.
+# Rebuild them on the build machine with scripts/assemble-artifacts.sh (after git clone).
+/cloudbeaver/deps/cloudbeaver-deps-26.1.3.tar.gz
