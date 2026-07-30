@@ -49,8 +49,8 @@ runs with `--network=none` (maven with `-o -Dmaven.repo.local=`, yarn with
 `enableNetwork=0`), so a missing dependency fails the build instead of silently
 going online.
 
-If maven/npm must go through an internal nexus, drop `artifacts/maven-settings.xml`
-and `artifacts/yarnrc.yml` next to them (examples ship in the fork). They are not
+If maven/npm must go through an internal nexus, drop `conf/maven-settings.xml`
+and `conf/yarnrc.yml` into the builder directory (examples ship in the fork). They are not
 needed for the flow above — everything already resolves from `artifacts/deps`.
 
 The dev flow (`make all SOURCE=local`, sources taken from local working trees) needs
