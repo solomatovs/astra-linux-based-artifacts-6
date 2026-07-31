@@ -1,6 +1,5 @@
 path	size	sha256	parts
-cloudbeaver/deps/cloudbeaver-deps-26.1.3-deb.tar.gz	2237005	e35cc402fc68eaaafb6a30d6d1b6d3d94f3a667a18c51fcac6f44fabfd65e04c	0
-cloudbeaver/deps/cloudbeaver-deps-26.1.3.tar.gz	768411785	8645bdaa8590a387da81ecda16cea34284cdadde6b80abb77dd29687b0ccbd27	9
+cloudbeaver/deps/deps.tar.gz	769168700	0208ef7971779c264e90f69e0baf11952023da7c5d6288970657e4cab2c562ef	9
 cloudbeaver/src/cloudbeaver-26.1.3.tar.gz	14985490	0a13e05de11a7afd65cf0d436d1d7789e7a5a19c9875fbfe65f24a8d07d38d6f	0
 cloudbeaver/src/dbeaver-26.1.3.tar.gz	10150636	1512121cee58ad4cb1e6edff6004bdb797743d3ffc9ae9492f1a7618665662e7	0
 cloudbeaver/src/dbeaver-common-26.1.3.tar.gz	123728	e4fc1589fc19405e6436cd13cecf4c42134691feea1f73f0c1781de430be7abe	0

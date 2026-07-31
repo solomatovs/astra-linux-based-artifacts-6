@@ -10,7 +10,7 @@ fork of CloudBeaver **without network access**:
 | component | contents |
 |-----------|----------|
 | `cloudbeaver/src`  | source tarballs of the three forks, tag `dmp-26.1.3`, plus the yarn 4 cli |
-| `cloudbeaver/deps` | build dependencies of that tag: maven local repository (with the tycho p2 cache), the global yarn cache, and the .deb packages the runtime image installs |
+| `cloudbeaver/deps` | build dependencies of that tag: maven local repository (with the tycho p2 cache) and the global yarn cache |
 
 The consuming `Makefile`/`Dockerfile` live in the `cloudbeaver` fork itself
 (`deploy/docker/cloudbeaver-dmp`), where `artifacts/` is git-ignored — only these
@@ -34,10 +34,10 @@ cd astra-linux-based-artifacts-6
 ./scripts/assemble-artifacts.sh   # rebuild split files + verify all sha256
 
 CB=/path/to/cloudbeaver/deploy/docker/cloudbeaver-dmp
-mkdir -p "$CB/artifacts/src" "$CB/artifacts/deps/26.1.3"
+mkdir -p "$CB/artifacts/src"
 cp cloudbeaver/src/* "$CB/artifacts/src/"
-tar -xzf cloudbeaver/deps/cloudbeaver-deps-26.1.3.tar.gz     -C "$CB/artifacts/deps/26.1.3"
-tar -xzf cloudbeaver/deps/cloudbeaver-deps-26.1.3-deb.tar.gz -C "$CB/artifacts/deps/26.1.3"
+# deps.tar.gz содержит deps/<версия>/{m2,yarn} — распаковывается в корень artifacts/
+tar -xzf cloudbeaver/deps/deps.tar.gz -C "$CB/artifacts"
 
 cd "$CB"
 make all                          # sources are already in place, nothing is downloaded
@@ -74,8 +74,9 @@ push is done in size-bounded batches:
 1. In the fork: `make deps VERSION=<версия>` (needs network), which fills
    `artifacts/deps/<версия>`.
 2. Copy the source tarballs and the yarn cli from `artifacts/src` into
-   `cloudbeaver/src/` here, and pack the dependencies:
-   `tar -czf cloudbeaver/deps/cloudbeaver-deps-<версия>.tar.gz --sort=name -C <...>/artifacts/deps/<версия> .`
+   `cloudbeaver/src/` here, and pack the whole `artifacts/` deps tree:
+   `tar -czf cloudbeaver/deps/deps.tar.gz --sort=name -C <...>/artifacts .`
+   (the archive contains `deps/<версия>/{m2,yarn}`; see "On the build machine").
 3. Run `./scripts/split-artifacts.sh`, then `./scripts/push-artifacts.sh`.
 
 Override `BATCH_MB` (default 1200) to change push batch size. `split-artifacts.sh`
